@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lenka Cernakova — Customer Experience Manager</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --gold: #E8C547;
+    --dark: #1A1A1A;
+    --dark2: #252525;
+    --muted: #9E9B94;
+    --light: #F5F2EC;
+    --border: rgba(255,255,255,0.08);
+    --text: #1A1A1A;
+    --text2: #555550;
+    --text3: #888880;
+    --bg: #ffffff;
+    --bg2: #F7F6F3;
+    --line: rgba(0,0,0,0.08);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* HERO */
+  .hero {
+    background: var(--dark);
+    padding: 5rem 6rem 4rem;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 3rem;
+    align-items: end;
+    min-height: 100vh;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: 'CX';
+    position: absolute;
+    right: -2rem;
+    bottom: -4rem;
+    font-family: 'Fraunces', serif;
+    font-size: 28rem;
+    font-weight: 300;
+    color: rgba(255,255,255,0.02);
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .hero-name {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(3.5rem, 8vw, 7rem);
+    font-weight: 300;
+    line-height: 0.95;
+    letter-spacing: -2px;
+    color: var(--light);
+    margin-bottom: 1rem;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeUp 0.9s ease forwards 0.1s;
+  }
+
+  .hero-role {
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 2.5rem;
+    opacity: 0;
+    animation: fadeUp 0.9s ease forwards 0.3s;
+  }
+
+  .power-strip {
+    border-left: 3px solid var(--gold);
+    padding-left: 1.25rem;
+    opacity: 0;
+    animation: fadeUp 0.9s ease forwards 0.5s;
+  }
+
+  .power-line1 {
+    font-size: 14px;
+    color: var(--muted);
+    font-style: italic;
+    font-weight: 300;
+    line-height: 1.6;
+  }
+
+  .power-line2 {
+    font-size: 17px;
+    color: var(--gold);
+    font-style: italic;
+    font-weight: 300;
+    line-height: 1.6;
+  }
+
+  .hero-contact {
+    text-align: right;
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 2.2;
+    opacity: 0;
+    animation: fadeUp 0.9s ease forwards 0.6s;
+  }
+
+  .hero-contact a {
+    color: var(--light);
+    text-decoration: none;
+    border-bottom: 0.5px solid rgba(255,255,255,0.2);
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .hero-contact a:hover { color: var(--gold); border-color: var(--gold); }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 2.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    opacity: 0;
+    animation: fadeUp 0.9s ease forwards 1s;
+  }
+
+  .scroll-hint span {
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .scroll-line {
+    width: 1px;
+    height: 40px;
+    background: var(--gold);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+
+  /* STATS */
+  .stats-bar {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    background: var(--dark2);
+  }
+
+  .stat {
+    padding: 2rem 4rem;
+    border-right: 0.5px solid var(--border);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: background 0.2s;
+  }
+
+  .stat:last-child { border-right: none; }
+  .stat:hover { background: rgba(232,197,71,0.05); }
+  .stat.visible { animation: fadeUp 0.6s ease forwards; }
+  .stat:nth-child(2).visible { animation-delay: 0.1s; }
+  .stat:nth-child(3).visible { animation-delay: 0.2s; }
+
+  .stat-num {
+    font-family: 'Fraunces', serif;
+    font-size: 3rem;
+    font-weight: 300;
+    color: var(--gold);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 6px;
+  }
+
+  /* BODY */
+  .body-wrap {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .main {
+    padding: 4rem 4rem 4rem 6rem;
+    border-right: 0.5px solid var(--line);
+  }
+
+  .sidebar {
+    padding: 4rem 4rem 4rem 3rem;
+  }
+
+  /* SECTIONS */
+  .section { margin-bottom: 3rem; }
+
+  .section-label {
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 3.5px;
+    text-transform: uppercase;
+    color: var(--text3);
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 0.5px;
+    background: var(--line);
+  }
+
+  /* PROFILE */
+  .profile-block {
+    background: var(--bg2);
+    border-radius: 12px;
+    padding: 1.75rem 2rem;
+    border-left: 3px solid var(--gold);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: none;
+  }
+
+  .profile-block.visible {
+    animation: fadeUp 0.7s ease forwards;
+  }
+
+  .profile-text {
+    font-size: 14px;
+    color: var(--text2);
+    line-height: 1.85;
+  }
+
+  .profile-text p + p { margin-top: 1rem; }
+
+  /* JOBS */
+  .job {
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 0.5px solid var(--line);
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  .job:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .job.visible { animation: fadeUp 0.6s ease forwards; }
+
+  .job-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 3px;
+  }
+
+  .job-title {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  .job-date {
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: var(--text3);
+    white-space: nowrap;
+    background: var(--bg2);
+    padding: 3px 10px;
+    border-radius: 20px;
+    flex-shrink: 0;
+  }
+
+  .job-co {
+    font-size: 12px;
+    color: var(--text3);
+    margin-bottom: 10px;
+    letter-spacing: 0.5px;
+  }
+
+  .job-bullets { list-style: none; padding: 0; }
+
+  .job-bullets li {
+    font-size: 13px;
+    color: var(--text2);
+    margin-bottom: 6px;
+    padding-left: 16px;
+    position: relative;
+    line-height: 1.65;
+  }
+
+  .job-bullets li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--gold);
+    font-size: 11px;
+    top: 2px;
+  }
+
+  /* SIDEBAR */
+  .sidebar-section { margin-bottom: 2rem; }
+
+  .sidebar-label {
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 3.5px;
+    text-transform: uppercase;
+    color: var(--text3);
+    margin-bottom: 0.875rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .sidebar-label::after {
+    content: '';
+    flex: 1;
+    height: 0.5px;
+    background: var(--line);
+  }
+
+  .expertise-grid { display: flex; flex-wrap: wrap; gap: 6px; }
+
+  .exp-tag {
+    font-size: 11px;
+    padding: 4px 11px;
+    border-radius: 3px;
+    background: var(--bg2);
+    border: 0.5px solid var(--line);
+    color: var(--text2);
+    letter-spacing: 0.3px;
+    transition: background 0.2s, border-color 0.2s;
+  }
+
+  .exp-tag:hover { background: #F0EDD6; border-color: var(--gold); }
+
+  .tools-prose {
+    font-size: 12px;
+    color: var(--text2);
+    line-height: 1.75;
+  }
+
+  .edu-item { margin-bottom: 1rem; }
+  .edu-degree { font-size: 13px; font-weight: 500; color: var(--text); }
+  .edu-school { font-size: 12px; color: var(--text2); }
+  .edu-date { font-size: 11px; color: var(--text3); margin-top: 2px; }
+
+  .lang-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+    border-bottom: 0.5px solid var(--line);
+  }
+
+  .lang-row:last-child { border-bottom: none; }
+  .lang-name { font-size: 13px; color: var(--text); }
+  .lang-level { font-size: 11px; color: var(--text3); }
+
+  .vol-org { font-size: 13px; font-weight: 500; color: var(--text); }
+  .vol-place { font-size: 11px; color: var(--text3); margin-bottom: 4px; }
+  .vol-desc { font-size: 12px; color: var(--text2); line-height: 1.6; }
+
+  .cert-name { font-size: 13px; font-weight: 500; color: var(--text); }
+  .cert-org { font-size: 12px; color: var(--text2); }
+  .cert-date { font-size: 11px; color: var(--text3); }
+
+  /* FOOTER */
+  .footer {
+    background: var(--dark);
+    padding: 2rem 6rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-name {
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    font-weight: 300;
+    color: var(--light);
+  }
+
+  .footer-links { display: flex; gap: 2rem; }
+
+  .footer-links a {
+    font-size: 12px;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.5px;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: var(--gold); }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.3; transform: scaleY(1); }
+    50% { opacity: 1; transform: scaleY(1.2); }
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    .hero { padding: 4rem 2rem 3rem; grid-template-columns: 1fr; }
+    .hero-contact { text-align: left; }
+    .stats-bar { grid-template-columns: 1fr; }
+    .stat { border-right: none; border-bottom: 0.5px solid var(--border); padding: 1.5rem 2rem; }
+    .body-wrap { grid-template-columns: 1fr; }
+    .main { padding: 3rem 2rem; border-right: none; border-bottom: 0.5px solid var(--line); }
+    .sidebar { padding: 3rem 2rem; }
+    .footer { padding: 2rem; flex-direction: column; gap: 1rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-name">Lenka<br>Cernakova</div>
+    <div class="hero-role">Customer Experience Manager</div>
+    <div class="power-strip">
+      <div class="power-line1">Automation handles the easy stuff.</div>
+      <div class="power-line2">I handle the rest — and make customers love your product,<br>even when things don't go to plan.</div>
+    </div>
+  </div>
+  <div class="hero-contact">
+    Wien 1030, Austria<br>
+    <a href="mailto:lenkycerny@gmail.com">lenkycerny@gmail.com</a><br>
+    <a href="https://www.linkedin.com/in/lenkacernakova/" target="_blank">LinkedIn</a>
+  </div>
+  <div class="scroll-hint">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat">
+    <div class="stat-num">10+</div>
+    <div class="stat-label">Years in CX & Ops</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num" data-count="50">0</div>
+    <div class="stat-label">Orders managed monthly (k)</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">0</div>
+    <div class="stat-label">Customers left on read</div>
+  </div>
+</div>
+
+<!-- BODY -->
+<div class="body-wrap">
+  <main class="main">
+
+    <div class="section">
+      <div class="section-label">Profile</div>
+      <div class="profile-block">
+        <div class="profile-text">
+          <p>Customer Experience Manager with 10+ years of experience. I specialise in making complex things feel simple for the people using them.</p>
+          <p>I've led support and operations across blockchain, creator economies, trust & safety, and community platforms — and I know how to make complex products feel effortless for the people using them.</p>
+          <p>If you are looking for someone who owns the product, builds for scale, and never loses sight of the customer experience — that's me.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-label">Experience</div>
+
+      <div class="job">
+        <div class="job-header">
+          <span class="job-title">Senior Customer Success Manager</span>
+          <span class="job-date">Apr 2022 – Present</span>
+        </div>
+        <div class="job-co">LimeWire · Vienna, Austria</div>
+        <ul class="job-bullets">
+          <li>Designed end-to-end customer support infrastructure including processes, tooling, and workflows for a fast-moving technical environment.</li>
+          <li>Created a library of support macros to streamline response workflows and ensure consistent, on-brand communication.</li>
+          <li>Led Trust & Safety operations, reviewing and escalating problematic content to maintain legal and regulatory compliance.</li>
+          <li>Served as primary user contact, translating technical blockchain concepts into clear, actionable guidance.</li>
+        </ul>
+      </div>
+
+      <div class="job">
+        <div class="job-header">
+          <span class="job-title">Head of Operations</span>
+          <span class="job-date">Jan 2019 – Oct 2021</span>
+        </div>
+        <div class="job-co">Represent.com · Prague, Czechia</div>
+        <ul class="job-bullets">
+          <li>Led operations at a celebrity merchandise tech startup, processing 5,000–50,000 orders per month for PewDiePie, Arnold Schwarzenegger, and K-pop artists.</li>
+          <li>Optimised order fulfilment pipeline by implementing a batching system triggering production at 2,000+ orders, ensuring timely delivery at scale.</li>
+          <li>Led the setup of a European printing facility, establishing operational processes and workflows from scratch.</li>
+          <li>Hired, onboarded, and trained team members while managing resource planning across multiple concurrent campaigns.</li>
+        </ul>
+      </div>
+
+      <div class="job">
+        <div class="job-header">
+          <span class="job-title">Customer Experience Manager</span>
+          <span class="job-date">Feb 2017 – Feb 2019</span>
+        </div>
+        <div class="job-co">Represent.com · Prague</div>
+        <ul class="job-bullets">
+          <li>Resolved customer inquiries via Freshdesk, social media, and Intercom.</li>
+          <li>Collected and analysed customer feedback, driving continuous product improvements.</li>
+        </ul>
+      </div>
+
+      <div class="job">
+        <div class="job-header">
+          <span class="job-title">Community Happiness Manager</span>
+          <span class="job-date">Feb 2016 – Feb 2017</span>
+        </div>
+        <div class="job-co">Locus Workspace · Prague</div>
+        <ul class="job-bullets">
+          <li>Managed coworking space operations and community of members.</li>
+          <li>Recruited, onboarded, and managed a team of interns in a collaborative, growth-oriented environment.</li>
+          <li>Conceptualised and executed member-exclusive and public-facing events driving community growth.</li>
+        </ul>
+      </div>
+
+    </div>
+  </main>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">Expertise</div>
+      <div class="expertise-grid">
+        <span class="exp-tag">Customer Success</span>
+        <span class="exp-tag">Customer Onboarding</span>
+        <span class="exp-tag">Operations Management</span>
+        <span class="exp-tag">Project Management</span>
+        <span class="exp-tag">CX Design</span>
+        <span class="exp-tag">Trust & Safety</span>
+        <span class="exp-tag">CRM</span>
+        <span class="exp-tag">Cross-functional Leadership</span>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">Tools & Technology</div>
+      <p class="tools-prose">I've worked across the CS tech stack — Zendesk, Freshdesk, Intercom — and I adapt fast to whatever tools your team uses. Tech-savvy and quick to adopt new tools — I stay on top of AI developments and am always exploring what makes work smarter.</p>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">Education</div>
+      <div class="edu-item">
+        <div class="edu-degree">Masters — Cultural Anthropology</div>
+        <div class="edu-school">Constantine the Philosopher University</div>
+        <div class="edu-date">2014 – 2016 · Nitra</div>
+      </div>
+      <div class="edu-item">
+        <div class="edu-degree">Bachelor — Middle Eastern Studies & Arabic language</div>
+        <div class="edu-school">Constantine the Philosopher University</div>
+        <div class="edu-date">2011 – 2014 · Nitra</div>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">Certifications</div>
+      <div class="edu-item">
+        <div class="cert-name">SQL · Data Visualisation · Python</div>
+        <div class="cert-org">Digital Academy — Czechitas</div>
+        <div class="cert-date">300h · Sept – Dec 2018</div>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">Languages</div>
+      <div class="lang-row"><span class="lang-name">Slovak</span><span class="lang-level">Native</span></div>
+      <div class="lang-row"><span class="lang-name">English</span><span class="lang-level">Full professional proficiency</span></div>
+      <div class="lang-row"><span class="lang-name">Czech</span><span class="lang-level">Full professional proficiency</span></div>
+      <div class="lang-row"><span class="lang-name">German</span><span class="lang-level">A2</span></div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">Volunteering</div>
+      <div class="vol-org">English Teacher</div>
+      <div class="vol-place">Amaan Orphanage Centre · Dar es Salaam · 2015</div>
+      <div class="vol-desc">Taught English and led creative workshops for children, developing patience, adaptability, and the ability to explain complex things simply.</div>
+    </div>
+
+  </aside>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-name">Lenka Cernakova</div>
+  <div class="footer-links">
+    <a href="mailto:lenkycerny@gmail.com">lenkycerny@gmail.com</a>
+    <a href="https://www.linkedin.com/in/lenkacernakova/" target="_blank">LinkedIn</a>
+  </div>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(el => {
+      if (el.isIntersecting) {
+        el.target.classList.add('visible');
+        observer.unobserve(el.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.stat, .profile-block, .job').forEach((el, i) => {
+    el.style.animationDelay = (i * 0.08) + 's';
+    observer.observe(el);
+  });
+
+  const countEl = document.querySelector('[data-count]');
+  const countObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const target = parseInt(entry.target.dataset.count);
+        let current = 0;
+        const step = target / 40;
+        const timer = setInterval(() => {
+          current += step;
+          if (current >= target) { current = target; clearInterval(timer); }
+          entry.target.textContent = Math.round(current) + 'k';
+        }, 30);
+        countObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.5 });
+
+  if (countEl) countObserver.observe(countEl);
+</script>
+</body>
+</html>
